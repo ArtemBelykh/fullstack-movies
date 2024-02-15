@@ -3,13 +3,17 @@ import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {ConfigModule, ConfigService} from "@nestjs/config";
 import {TypeOrmModule} from "@nestjs/typeorm";
-import { FilmsController } from './films/films.controller';
 import { FilmsModule } from './films/films.module';
-import { FilmsService } from "./films/films.service";
 import { LanguageModule } from './language/language.module';
 import { GenreModule } from './genre/genre.module';
 import { FileModule } from './file/file.module';
-import { AuthorModule } from './author/author.module';
+import { AuthorModule } from './author/author.module'
+import {Film} from "./films/entities/film.entity";
+import {Author} from "./author/entities/author.entity";
+import {File} from "./file/entities/file.entity";
+import {Genre} from "./genre/entities/genre.entity";
+import {Language} from "./language/entities/language.entity";
+import {FilmsService} from "./films/films.service";
 
 @Module({
     imports: [
@@ -28,14 +32,16 @@ import { AuthorModule } from './author/author.module';
           }),
             inject: [ConfigService]
         }),
+        TypeOrmModule.forFeature([Film, Author, File, Genre, Language, FilmsService]),
         FilmsModule,
+        AuthorModule,
+        FileModule,
         LanguageModule,
         GenreModule,
-        FileModule,
-        AuthorModule
+
     ],
-    controllers: [AppController, FilmsController],
-    providers: [AppService, FilmsService],
+    controllers: [AppController],
+    providers: [AppService],
 })
 export class AppModule {
 }
