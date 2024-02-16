@@ -7,13 +7,14 @@ import {Author} from "../author/entities/author.entity";
 import {File} from "../file/entities/file.entity";
 import {Genre} from "../genre/entities/genre.entity";
 import {Language} from "../language/entities/language.entity";
+import {AuthorService} from "../author/author.service";
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Film, Author,File, Genre, Language]),
   ],
   controllers: [FilmsController],
-  providers: [FilmsService],
-  exports: [FilmsService]
+  providers: [FilmsService, AuthorService],
+  exports: [FilmsService, AuthorService]
 })
 export class FilmsModule {}
