@@ -10,9 +10,10 @@ export class LanguageService {
     constructor(@InjectRepository(Language) private readonly languageRepository: Repository<Language>) {
     }
 
-    async create(data: CreateLanguageDto) {
-      const createLanguage = this.languageRepository.create({...data})
-      return this.languageRepository.save(createLanguage)
+    async create(createLanguageDto: CreateLanguageDto) {
+        const languageData = this.languageRepository.create(createLanguageDto)
+
+        return this.languageRepository.save(languageData)
     }
 
     findAll() {

@@ -1,1 +1,4 @@
-export class CreateGenreDto {}
+export class CreateGenreDto {
+    url: string;
+    type: string;
+}

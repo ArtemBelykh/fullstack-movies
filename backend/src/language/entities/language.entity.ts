@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import { Film } from "../../films/entities/film.entity";
 @Entity()
 export class Language {
@@ -12,6 +12,6 @@ export class Language {
   @Column()
   lang_code: string
 
-  @ManyToOne(() => Film, (film) => film.language)
-  film: Film
+  @ManyToMany(() => Film, (film) => film.language)
+  film: Film[]
 }

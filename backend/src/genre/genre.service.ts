@@ -1,11 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { UpdateGenreDto } from './dto/update-genre.dto';
+import {InjectRepository} from "@nestjs/typeorm";
+import {Repository} from "typeorm";
+import {Genre} from "./entities/genre.entity";
 
 @Injectable()
 export class GenreService {
+  constructor(
+      @InjectRepository(Genre)
+      private readonly genreRepository: Repository<Genre>
+  ) {
+  }
   create(createGenreDto: CreateGenreDto) {
-    return 'This action adds a new genre';
+    const fileData = this.genreRepository.create(createGenreDto)
+
+    return this.genreRepository.save(fileData)
   }
 
   findAll() {

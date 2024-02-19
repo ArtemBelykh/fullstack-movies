@@ -1,4 +1,4 @@
-import {Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import { Language } from "../../language/entities/language.entity";
 import {Genre} from "../../genre/entities/genre.entity";
 import {File} from "../../file/entities/file.entity";
@@ -21,15 +21,19 @@ export class Film {
   @Column()
   rating: string
 
-  @OneToMany(() => Language, (language) => language.film)
+  @ManyToMany(() => Language, (language) => language.film)
+  @JoinTable()
   language: Language[]
 
-  @OneToMany(() => Genre, (genre) => genre.film)
+  @ManyToMany(() => Genre, (genre) => genre.film)
+  @JoinTable()
   genre: Genre[]
 
-  @OneToMany(() => File, (file) => file.film)
+  @ManyToMany(() => File, (file) => file.film)
+  @JoinTable()
   file: File[]
 
-  @OneToMany(() => Author, (author) => author.film)
+  @ManyToMany(() => Author, (author) => author.film)
+  @JoinTable()
   author: Author[]
 }

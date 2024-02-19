@@ -11,8 +11,7 @@ export class Author {
     @Column()
     photography: string
 
-    @ManyToOne(() => Film, (film) => film.author)
-    @JoinTable()
+    @ManyToMany(() => Film, (film) => film.author)
     film: Film[]
 
 

@@ -9,9 +9,8 @@ export class LanguageController {
   constructor(private readonly languageService: LanguageService) {}
 
   @Post('/create')
-  create(@Req() request: Request, @Body() createLanguageDto: CreateLanguageDto) {
-    const {body} = request
-    return this.languageService.create(body);
+  create(@Body() createLanguageDto: CreateLanguageDto) {
+    return this.languageService.create(createLanguageDto);
   }
 
   @Get('/getAll')

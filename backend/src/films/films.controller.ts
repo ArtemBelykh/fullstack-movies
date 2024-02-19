@@ -17,6 +17,11 @@ export class FilmsController {
     return this.filmsService.findAll();
   }
 
+  @Get('/getById/:id')
+  async getById(@Param('id') id: bigint) {
+    return await this.filmsService.findFilmWithDetailsById(id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.filmsService.findOne(+id);
