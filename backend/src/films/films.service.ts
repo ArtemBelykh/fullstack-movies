@@ -47,19 +47,19 @@ export class FilmsService {
         filmData.file = createdFiles;
         filmData.genre = createdGenre;
         filmData.language = createdLanguage;
+
         return this.filmRepository.save(filmData)
 
     }
 
     async findFilmWithDetailsById(id: bigint): Promise<any> {
         const film = await this.filmRepository.findOne({
-            where: { id },
+            where: {id},
             relations: ['language', 'genre', 'file', 'author'],
         });
 
-        if (!film) {
-            throw new NotFoundException('Film not a found!');
-        }
+        if (!film) throw new NotFoundException('Film not a found!');
+
         const authorData = film.author.map(author => ({
             name: author.name,
             photography: author.photography,
@@ -93,19 +93,43 @@ export class FilmsService {
     }
 
 
-    findAll() {
-        return `This action returns all films`;
+    async findAll() {
+        return await this.filmRepository.find({
+            relations: ['language', 'genre', 'file', 'author'],
+        })
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} film`;
+    async update(id: bigint, updateFilmDto: UpdateFilmDto) {
+
+        const filmToUpdate = await this.filmRepository.findOne({
+            where: {id},
+            relations: ['language', 'genre', 'file', 'author']
+        });
+
+        if (!filmToUpdate) throw new NotFoundException('Film not a found!');
+
+
+        filmToUpdate.title = updateFilmDto.title;
+        filmToUpdate.year = updateFilmDto.year;
+        filmToUpdate.description = updateFilmDto.description;
+        filmToUpdate.rating = updateFilmDto.rating;
+
+        filmToUpdate.author = [...updateFilmDto.author];
+        filmToUpdate.file = [...updateFilmDto.file];
+        filmToUpdate.genre = [...updateFilmDto.genre];
+        filmToUpdate.language = [...updateFilmDto.language];
+
+        return this.filmRepository.save(filmToUpdate);
     }
 
-    update(id: number, updateFilmDto: UpdateFilmDto) {
-        return `This action updates a #${id} film`;
-    }
+    async remove(id: any) {
+        const filmToRemove = await this.filmRepository.findOne({where: {id}})
 
-    remove(id: number) {
-        return `This action removes a #${id} film`;
+        if (!filmToRemove) throw new NotFoundException('Film not a found!');
+
+        await this.filmRepository.remove(filmToRemove)
+        return filmToRemove;
+
+
     }
 }

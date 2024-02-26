@@ -12,28 +12,25 @@ export class FilmsController {
     return this.filmsService.create(createFilmDto);
   }
 
-  @Get()
+  @Get('getAll')
   findAll() {
     return this.filmsService.findAll();
   }
 
-  @Get('/getById/:id')
+  @Get('getById/:id')
   async getById(@Param('id') id: bigint) {
     return await this.filmsService.findFilmWithDetailsById(id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.filmsService.findOne(+id);
+  @Patch('update/:id')
+  async update(@Param('id') id: bigint, @Body() updateFilmDto: UpdateFilmDto) {
+
+    // console.log(updateFilmDto)
+    return this.filmsService.update(id, updateFilmDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFilmDto: UpdateFilmDto) {
-    return this.filmsService.update(+id, updateFilmDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete('delete/:id')
+  remove(@Param('id') id: number) {
     return this.filmsService.remove(+id);
   }
 }
